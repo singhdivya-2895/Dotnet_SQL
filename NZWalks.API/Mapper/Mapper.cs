@@ -33,7 +33,16 @@ namespace NZWalks.API.Mapper
               Name = regionRequestDto.Name,
               RegionImageUrl = regionRequestDto.RegionImageUrl,
             };
-            
+        }
+        public static Region mapUpdateRegionRequestDtointoRegionModel(UpdateRegionRequestDto updateRegionRequestDto)
+        {
+            //map Dto to Domainmodel
+            return new Region
+            {
+              Code = updateRegionRequestDto.Code,
+              Name = updateRegionRequestDto.Name,
+              RegionImageUrl= updateRegionRequestDto.RegionImageUrl,
+            };
         }
     } 
 }
