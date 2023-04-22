@@ -6,7 +6,7 @@ namespace NZWalks.API.Mapper
 {
     public static class MappingHelper
     {
-       
+        #region "Region Mapping"
         public static RegionDto mapRegionDomaintoRegionDto(Region regionDomainModal)
         {
             return new RegionDto
@@ -44,6 +44,40 @@ namespace NZWalks.API.Mapper
               RegionImageUrl= updateRegionRequestDto.RegionImageUrl,
             };
         }
-    } 
+        #endregion
+
+        #region "Walks Mapping"
+        // Add WalksDTO to Walks Domain
+        public static Walk mapAddWalkRequestDtointoWalk(AddWalkRequestDto WalkRequestDto) 
+        {
+            //map AddWalksDTO to Walks Domain
+           
+            return new Walk
+            {
+              Name = WalkRequestDto.Name,
+              Description = WalkRequestDto.Description,
+              LengthInKm = WalkRequestDto.LengthInKm,   
+              WalkImageUrl = WalkRequestDto.WalkImageUrl,
+              DifficultyId = WalkRequestDto.DifficultyId,
+              RegionID = WalkRequestDto.RegionID,
+            };
+        }
+        //map Walkdomain To WalkDTo
+
+        public static WalkDto mapWalkDomainModelintoWalkDto(Walk walkDomainModel) 
+        {
+            return new WalkDto
+            {
+                Id = walkDomainModel.Id,
+                Name = walkDomainModel.Name,    
+                Description= walkDomainModel.Description,   
+                LengthInKm= walkDomainModel.LengthInKm,
+                WalkImageUrl = walkDomainModel.WalkImageUrl,    
+                DifficultyId = walkDomainModel.DifficultyId,
+                RegionID = walkDomainModel.RegionID,    
+            };
+        }
+        #endregion
+    }
 }
     

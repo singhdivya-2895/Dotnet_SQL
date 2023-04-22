@@ -12,8 +12,8 @@ using NZWalks.API.Data;
 namespace NZWalks.API.Migrations
 {
     [DbContext(typeof(NZWalksDbContext))]
-    [Migration("20230418120831_Sync Tables")]
-    partial class SyncTables
+    [Migration("20230422123449_Seed data for difficulties")]
+    partial class Seeddatafordifficulties
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,23 @@ namespace NZWalks.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Difficulties");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("57c295d1-1bf9-4c34-aa42-ad4e5f1455b6"),
+                            Name = "Easy"
+                        },
+                        new
+                        {
+                            Id = new Guid("312050d1-a5fa-4921-830a-cad24a413781"),
+                            Name = "Medium"
+                        },
+                        new
+                        {
+                            Id = new Guid("498e882c-ee1d-4d56-b4f9-f444686d326b"),
+                            Name = "Hard"
+                        });
                 });
 
             modelBuilder.Entity("NZWalks.API.Models.Domain.Region", b =>
@@ -55,12 +72,52 @@ namespace NZWalks.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegionImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Regions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f7248fc3-2585-4efb-8d1d-1c555f4087f6"),
+                            Code = "AKL",
+                            Name = "Auckland",
+                            RegionImageUrl = "https://images.pexels.com/photos/5169056/pexels-photo-5169056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        },
+                        new
+                        {
+                            Id = new Guid("6884f7d7-ad1f-4101-8df3-7a6fa7387d81"),
+                            Code = "NTL",
+                            Name = "Northland"
+                        },
+                        new
+                        {
+                            Id = new Guid("14ceba71-4b51-4777-9b17-46602cf66153"),
+                            Code = "BOP",
+                            Name = "Bay Of Plenty"
+                        },
+                        new
+                        {
+                            Id = new Guid("cfa06ed2-bf65-4b65-93ed-c9d286ddb0de"),
+                            Code = "WGN",
+                            Name = "Wellington",
+                            RegionImageUrl = "https://images.pexels.com/photos/4350631/pexels-photo-4350631.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        },
+                        new
+                        {
+                            Id = new Guid("906cb139-415a-4bbb-a174-1a1faf9fb1f6"),
+                            Code = "NSN",
+                            Name = "Nelson",
+                            RegionImageUrl = "https://images.pexels.com/photos/13918194/pexels-photo-13918194.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        },
+                        new
+                        {
+                            Id = new Guid("f077a22e-4248-4bf6-b564-c7cf4e250263"),
+                            Code = "STL",
+                            Name = "Southland"
+                        });
                 });
 
             modelBuilder.Entity("NZWalks.API.Models.Domain.Walk", b =>
@@ -83,18 +140,17 @@ namespace NZWalks.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RegionsId")
+                    b.Property<Guid>("RegionID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("WalkImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DifficultyId");
 
-                    b.HasIndex("RegionsId");
+                    b.HasIndex("RegionID");
 
                     b.ToTable("Walks");
                 });
@@ -107,15 +163,15 @@ namespace NZWalks.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NZWalks.API.Models.Domain.Region", "Regions")
+                    b.HasOne("NZWalks.API.Models.Domain.Region", "Region")
                         .WithMany()
-                        .HasForeignKey("RegionsId")
+                        .HasForeignKey("RegionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Difficulty");
 
-                    b.Navigation("Regions");
+                    b.Navigation("Region");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace NZWalks.API.Migrations
 {
     /// <inheritdoc />
-    public partial class SyncTables : Migration
+    public partial class Seeddatafordifficulties : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +32,7 @@ namespace NZWalks.API.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegionImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    RegionImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,9 +47,9 @@ namespace NZWalks.API.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LengthInKm = table.Column<double>(type: "float", nullable: false),
-                    WalkImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WalkImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DifficultyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RegionsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    RegionID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,11 +61,34 @@ namespace NZWalks.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Walks_Regions_RegionsId",
-                        column: x => x.RegionsId,
+                        name: "FK_Walks_Regions_RegionID",
+                        column: x => x.RegionID,
                         principalTable: "Regions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Difficulties",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("312050d1-a5fa-4921-830a-cad24a413781"), "Medium" },
+                    { new Guid("498e882c-ee1d-4d56-b4f9-f444686d326b"), "Hard" },
+                    { new Guid("57c295d1-1bf9-4c34-aa42-ad4e5f1455b6"), "Easy" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Regions",
+                columns: new[] { "Id", "Code", "Name", "RegionImageUrl" },
+                values: new object[,]
+                {
+                    { new Guid("14ceba71-4b51-4777-9b17-46602cf66153"), "BOP", "Bay Of Plenty", null },
+                    { new Guid("6884f7d7-ad1f-4101-8df3-7a6fa7387d81"), "NTL", "Northland", null },
+                    { new Guid("906cb139-415a-4bbb-a174-1a1faf9fb1f6"), "NSN", "Nelson", "https://images.pexels.com/photos/13918194/pexels-photo-13918194.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+                    { new Guid("cfa06ed2-bf65-4b65-93ed-c9d286ddb0de"), "WGN", "Wellington", "https://images.pexels.com/photos/4350631/pexels-photo-4350631.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+                    { new Guid("f077a22e-4248-4bf6-b564-c7cf4e250263"), "STL", "Southland", null },
+                    { new Guid("f7248fc3-2585-4efb-8d1d-1c555f4087f6"), "AKL", "Auckland", "https://images.pexels.com/photos/5169056/pexels-photo-5169056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -72,9 +97,9 @@ namespace NZWalks.API.Migrations
                 column: "DifficultyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Walks_RegionsId",
+                name: "IX_Walks_RegionID",
                 table: "Walks",
-                column: "RegionsId");
+                column: "RegionID");
         }
 
         /// <inheritdoc />
