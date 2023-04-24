@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Mapper;
+using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
 
@@ -12,11 +13,21 @@ namespace NZWalks.API.Controllers
     public class WalksController : ControllerBase
     {
         private readonly IWalkRepository _walkRepository;
+
         public WalksController(IWalkRepository walkRepository)
         {
             _walkRepository = walkRepository;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var walksDomainModel = await _walkRepository.GetAllAsync();
+
+            //map DomainModel to Dto
+            var result = MappingHelper.mapWalkDomainListintoWalkDtoList(walksDomainModel);
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("{id:Guid}")]
@@ -27,9 +38,12 @@ namespace NZWalks.API.Controllers
             {
                 return NotFound();
             }
+
+            //map DomaiModel to Walk Dto
             var walkDto = MappingHelper.mapWalkDomainModelintoWalkDto(walk);
             return Ok(walkDto);
         }
+
         //Create walk
         //POST: /api/walks
         [HttpPost]
@@ -49,5 +63,43 @@ namespace NZWalks.API.Controllers
 
         }
 
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> Update(Guid id, UpdateWalkRequestDto updateWalkRequestDto)
+        {
+            //map Dto to Domain Model
+
+            var walkDomainModel = new Walk
+            {
+                Name = updateWalkRequestDto.Name,
+                Description = updateWalkRequestDto.Description,
+                LengthInKm = updateWalkRequestDto.LengthInKm,
+                WalkImageUrl = updateWalkRequestDto.WalkImageUrl,
+                DifficultyId = updateWalkRequestDto.DifficultyId,
+                RegionID = updateWalkRequestDto.RegionID
+            };
+            var walkToUpdate = await _walkRepository.UpdateAsync(id, walkDomainModel);
+            if (walkDomainModel == null)
+            {
+                return NotFound();
+            }
+            //map Domain model to Dto
+            var WalkDto = MappingHelper.mapWalkDomainModelintoWalkDto(walkToUpdate);
+            return Ok(WalkDto);
+        }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var walkToDelete = await _walkRepository.DeleteAsync(id);
+
+            if (walkToDelete == null)
+            {
+                return NotFound();
+            }
+            return Ok($"Walk with Id {walkToDelete.Id} deleted successfully.");
+        }
     }
 }

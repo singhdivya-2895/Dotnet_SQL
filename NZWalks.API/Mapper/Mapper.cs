@@ -9,6 +9,10 @@ namespace NZWalks.API.Mapper
         #region "Region Mapping"
         public static RegionDto mapRegionDomaintoRegionDto(Region regionDomainModal)
         {
+            if (regionDomainModal == null)
+            {
+                return null;
+            }
             return new RegionDto
             {
                 Id = regionDomainModal.Id,
@@ -47,6 +51,7 @@ namespace NZWalks.API.Mapper
         #endregion
 
         #region "Walks Mapping"
+        //This is for (Create Method/Post)
         // Add WalksDTO to Walks Domain
         public static Walk mapAddWalkRequestDtointoWalk(AddWalkRequestDto WalkRequestDto) 
         {
@@ -73,8 +78,44 @@ namespace NZWalks.API.Mapper
                 Description= walkDomainModel.Description,   
                 LengthInKm= walkDomainModel.LengthInKm,
                 WalkImageUrl = walkDomainModel.WalkImageUrl,    
-                DifficultyId = walkDomainModel.DifficultyId,
-                RegionID = walkDomainModel.RegionID,    
+                Difficulty = MapDifficultyDomainModelintoDifficultyDto(walkDomainModel.Difficulty),
+                Region = mapRegionDomaintoRegionDto(walkDomainModel.Region),    
+            };
+        }
+        //This method is for (GetAll/HttpGet).
+        //Giving a list back to dto on a single call.
+        public static List<WalkDto> mapWalkDomainListintoWalkDtoList(List<Walk> walkDomainModalList)
+        {
+            return (walkDomainModalList)
+                .Select(x => mapWalkDomainModelintoWalkDto(x))
+                .ToList();
+        }
+
+        public static DifficultyDto MapDifficultyDomainModelintoDifficultyDto(Difficulty difficultyDomainModel)
+        {
+            if (difficultyDomainModel == null)
+            {
+                return null;
+            }
+            return new DifficultyDto
+            {
+                Id = difficultyDomainModel.Id,
+                Name = difficultyDomainModel.Name,
+               
+            };
+        }
+        //map Dto to Model
+        // for Update Walk
+        public static Walk mapUpdateWalkRequestDtointoWalk(UpdateWalkRequestDto updateWalkRequestDto)
+        {
+            return new Walk
+            {
+             Name = updateWalkRequestDto.Name,
+             Description = updateWalkRequestDto.Description,
+             LengthInKm = updateWalkRequestDto.LengthInKm,
+             WalkImageUrl = updateWalkRequestDto.WalkImageUrl,
+             DifficultyId = updateWalkRequestDto.DifficultyId,
+             RegionID = updateWalkRequestDto.RegionID,
             };
         }
         #endregion

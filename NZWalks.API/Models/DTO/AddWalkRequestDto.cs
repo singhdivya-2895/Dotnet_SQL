@@ -8,6 +8,5 @@
         public string? WalkImageUrl { get; set; }
         public Guid DifficultyId { get; set; }
         public Guid RegionID { get; set; }
-
     }
 }
