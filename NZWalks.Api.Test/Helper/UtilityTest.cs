@@ -10,12 +10,14 @@ namespace NZWalks.Api.Test.Helper
     public class UtilityTest
     {
 
-        [Fact]
-        public void StringContainsNumeric_Negative()
+        [Theory]
+        [InlineData("Divya", false)]
+        [InlineData("Divya12", true)]
+        [InlineData("23233223", true)]
+        [InlineData("dfdffd4", true)]
+        [InlineData("Pankaj", false)]
+        public void StringContainsNumeric(string inputString, bool expectedResult)
         {
-            // Arrange
-            var inputString = "Divya";
-            var expectedResult = false;
 
             // Act
             var actualResult = Utility.StringContainsNumeric(inputString);
@@ -25,19 +27,43 @@ namespace NZWalks.Api.Test.Helper
 
         }
 
-        [Fact]
-        public void StringContainsNumeric_Positive()
+
+        //public void AllStringNumeric_Positive()
+        //{
+        //Arrange
+        //var inputString = "1000";
+        //var expectedResult = true;
+        //Act 
+        //var actualResult
+        //}
+        [Theory]
+        [InlineData("1234", true)]
+        [InlineData("p4759", false)]
+        [InlineData("p559", false)]
+        [InlineData("pvhfgygfg", false)]
+        [InlineData("6798hji", false)]
+        [InlineData("hyu89", false)]
+        [InlineData("gt67", false)]
+        public void AllNumericString(string inputString, bool expectedResult)
         {
-            // Arrange
-            var inputString = "Divya1";
-            var expectedResult = true;
-
-            // Act
-            var actualResult = Utility.StringContainsNumeric(inputString);
-
-            // Assert
-            Assert.Equal(expectedResult, actualResult);
-
+            //Act
+            var actualResult = Utility.AllNumericString(inputString);
+            //Assert
+            Assert.Equal(expectedResult,actualResult);
+        }
+        [Theory]
+        [InlineData("pankaj","pankj")]
+        [InlineData("aaaaaa","a")]
+        [InlineData("aaabbb","ab")]
+        [InlineData("aabbc","abc")]
+        [InlineData("bbbcdefgh","bcdefgh")]
+        [InlineData("", "")]
+        public void UniqueCharacter(String inputString ,string expected)
+        {
+            //Act
+            var actualResult = Utility.UniqueCharacter(inputString);
+            //Assert
+            Assert.Equal(expected, actualResult);
         }
     }
 }
