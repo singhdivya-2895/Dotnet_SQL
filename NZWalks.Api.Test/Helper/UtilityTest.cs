@@ -44,6 +44,7 @@ namespace NZWalks.Api.Test.Helper
         [InlineData("6798hji", false)]
         [InlineData("hyu89", false)]
         [InlineData("gt67", false)]
+        [InlineData("", false)]
         public void AllNumericString(string inputString, bool expectedResult)
         {
             //Act
@@ -65,5 +66,43 @@ namespace NZWalks.Api.Test.Helper
             //Assert
             Assert.Equal(expected, actualResult);
         }
+        [Theory]
+        [InlineData("nitin",true)]
+        [InlineData("nitan", false)]
+        [InlineData("divya",false)]
+        [InlineData("madam",true)]
+        [InlineData("pankaj",false)]
+        [InlineData("", false)]
+        public void Palindrome(String inputString,bool expectedResult)
+        {
+         //Act
+         var actualResult = Utility.Palindrome(inputString);
+         //Assert
+         Assert.True(expectedResult == actualResult, $"For input string {inputString}");
+        }
+
+        [Theory]
+        [InlineData("nitin", false)]
+        [InlineData("nitan", true)]
+        public void NotPalindrome(String inputString, bool expectedResult)
+        {
+            //Act
+            var actualResult = Utility.NotPalindrome(inputString);
+            //Assert
+            Assert.True(expectedResult == actualResult, $"For input string {inputString}");
+        }
+
+        [Theory]
+        [InlineData("pankaj", "jaknap")]
+        [InlineData("Divya","ayviD")]
+        [InlineData("mini","inim")]
+        public void ReverseString(String inputString, string expected)
+        {
+            //Act
+            string actualResult = Utility.Reverse(inputString);
+            //Assert
+            Assert.Equal(expected, actualResult);
+        }
+
     }
 }

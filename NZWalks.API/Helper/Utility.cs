@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace NZWalks.API.Helper
 {
@@ -26,13 +27,14 @@ namespace NZWalks.API.Helper
         public static bool AllNumericString(String inputString)
         {
             char[] inputArray = inputString.ToCharArray();
-            bool result = true;
+            bool result = (inputArray.Length != 0);
 
             foreach (var chr in inputArray)
             {
                 if (chr < 48 || chr > 57)
                 {
                     result = false;
+                    break;
                 }
             }
             return result;
@@ -49,9 +51,53 @@ namespace NZWalks.API.Helper
                     uniqueChars += chr;
                 }
             }
-
             return uniqueChars;
+        }
+        //  mitin
+        public static bool Palindrome(String inputString)
+        {
+            char [] myArray = inputString.ToCharArray();
+            int middleNumber = myArray.Length/2;
+            bool result = (myArray.Length != 0);
 
+            for (int i = 0; i < middleNumber; i++)
+            {
+                if (myArray[i] != myArray[(myArray.Length-1) - i])
+                {
+                    result = false;
+                    break;
+                }
+            } 
+            return result;
+        }
+        public static bool NotPalindrome(String inputString)
+        {
+            char[] myArray = inputString.ToCharArray();
+            int middleNumber = myArray.Length / 2;
+            bool isNotaPalindrome = (myArray.Length != 0);
+            for (int i = 0; i < middleNumber; i++)
+            {
+                if (myArray[i] == myArray[(myArray.Length - 1) - i])
+                {
+                    isNotaPalindrome = false;
+                    break;
+                }
+
+            }
+            return isNotaPalindrome;
+        }
+
+        public static string Reverse(String inputString)
+        {
+            char[] myArray = inputString.ToCharArray();
+            char[] newArray = new char[myArray.Length];
+            int maxIndex = myArray.Length - 1;
+
+            for (int i = (maxIndex); i >= 0 ; i--)
+            {
+                newArray[maxIndex - i] = myArray[i];
+            }
+            return new string(newArray);
         }
     }
 }
