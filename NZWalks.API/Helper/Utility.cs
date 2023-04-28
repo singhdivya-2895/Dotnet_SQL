@@ -58,8 +58,9 @@ namespace NZWalks.API.Helper
         {
             char [] myArray = inputString.ToCharArray();
             int middleNumber = myArray.Length/2;
+            // result = false when the string is empty
+            // starting value of result is true, when string is not empty
             bool result = (myArray.Length != 0);
-
             for (int i = 0; i < middleNumber; i++)
             {
                 if (myArray[i] != myArray[(myArray.Length-1) - i])
@@ -74,15 +75,14 @@ namespace NZWalks.API.Helper
         {
             char[] myArray = inputString.ToCharArray();
             int middleNumber = myArray.Length / 2;
-            bool isNotaPalindrome = (myArray.Length != 0);
+            bool isNotaPalindrome = false;
             for (int i = 0; i < middleNumber; i++)
             {
-                if (myArray[i] == myArray[(myArray.Length - 1) - i])
+                if (myArray[i] != myArray[(myArray.Length - 1) - i])
                 {
-                    isNotaPalindrome = false;
+                    isNotaPalindrome = true;
                     break;
                 }
-
             }
             return isNotaPalindrome;
         }
