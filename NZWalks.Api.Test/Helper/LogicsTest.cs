@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace NZWalks.Api.Test.Helper
 {
@@ -31,6 +32,36 @@ namespace NZWalks.Api.Test.Helper
             int actualResult = Logics.RomanToInt(inputString);
             //Assert
             Assert.Equal(expected, actualResult);
+        }
+        [Theory]
+        [InlineData(new int[] { 1,1,2 }, new int[] { 1, 2 }, 2)]
+        [InlineData(new int[] { 1, 1,1,1, 2,2 }, new int[] { 1, 2 }, 2)]
+        public void RemoveDuplicates_UsingList(int[] nums, int[] expectedArray, int expected)
+        {
+            //Act
+            int actualResult = Logics.RemoveDuplicates_UsingList(ref nums);
+            //Assert
+            Assert.Equal(expected, actualResult);
+            for (int i = 0; i < expected; i++)
+            {
+                Assert.Equal(nums[i], expectedArray[i]); 
+            }
+        }
+
+
+        [Theory]
+        [InlineData(new int[] { 1, 1, 2 }, new int[] { 1, 2 }, 2)]
+        [InlineData(new int[] { 1, 1, 1, 1, 2, 2 }, new int[] { 1, 2 }, 2)]
+        public void RemoveDuplicates(int[] nums, int[] expectedArray, int expected)
+        {
+            //Act
+            int actualResult = Logics.RemoveDuplicates(ref nums);
+            //Assert
+            Assert.Equal(expected, actualResult);
+            for (int i = 0; i < expected; i++)
+            {
+                Assert.Equal(nums[i], expectedArray[i]);
+            }
         }
      }
 }

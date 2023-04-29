@@ -2,7 +2,7 @@
 {
     public static class Logics
     {
-        public static int RomanToInt(String s) 
+        public static int RomanToInt(String s)
         {
             Dictionary<string, int> romanDic = new Dictionary<string, int>
             {
@@ -21,16 +21,16 @@
             };
             int result = 0;
             char previousCharacter = Char.MinValue;
-           
+
             char[] newArray = s.ToCharArray();
             foreach (char currentCharacter in newArray)
             {
-                if (previousCharacter == Char.MinValue 
+                if (previousCharacter == Char.MinValue
                     || romanDic[previousCharacter.ToString()] >= romanDic[currentCharacter.ToString()])
                 {
                     result += romanDic[currentCharacter.ToString()];
                 }
-                else  
+                else
                 {
                     var newChar = previousCharacter.ToString() + currentCharacter.ToString();
                     result -= romanDic[previousCharacter.ToString()];
@@ -64,13 +64,49 @@
                 {
                     result -= currentCharValue;
                 }
-                else 
+                else
                 {
                     result += currentCharValue;
                 }
                 previousCharValue = currentCharValue;
             }
             return result;
+        }
+        public static int RemoveDuplicates_UsingList(ref int[] nums)
+        {
+            List<int> templist = new List<int>();
+            int previousValue = nums[0];
+            templist.Add(previousValue);
+            int k = 1;
+            for (int i = 0; i <= nums.Length - 1; i++)
+            {
+                if (previousValue != nums[i])
+                {
+                    templist.Add(nums[i]);
+                    previousValue = nums[i];
+                    k++;
+                }
+            }
+            // Loop on list to update nums
+
+            for (int i = 0; i <= templist.Count - 1; i++)
+            {
+                nums[i] = templist[i];
+            }
+            return k;
+        }
+
+        public static int RemoveDuplicates(ref int[] nums)
+        {
+            int k = 0;
+            for (int i = 1; i <= nums.Length - 1; i++)
+            {
+                if (nums[k] != nums[i])
+                {
+                    nums[++k] = nums[i];
+                }
+            }
+            return k + 1;
         }
     }
 }

@@ -103,6 +103,5 @@ namespace NZWalks.Api.Test.Helper
             //Assert
             Assert.Equal(expected, actualResult);
         }
-
     }
 }
