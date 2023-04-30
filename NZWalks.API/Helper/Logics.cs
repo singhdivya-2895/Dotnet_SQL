@@ -1,4 +1,6 @@
-﻿namespace NZWalks.API.Helper
+﻿using System.Linq;
+
+namespace NZWalks.API.Helper
 {
     public static class Logics
     {
@@ -107,6 +109,95 @@
                 }
             }
             return k + 1;
+        }
+
+        public static string LongestSubString(string[] str)
+        {
+            //str = "Pankaj""Divya"
+            //In this line s is a variable = 
+            string s = str[0];
+            string s1 = str[str.Length - 1]; ;
+            string store = "";
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == s1[i])
+                {
+                    store += s[i];
+                }
+            }
+            return store;
+        }
+
+        public static bool IsValidStringWithBrackets(string s)
+        {
+            char[] chars = s.ToCharArray();
+            bool isValidString = true;
+            List<char> openingBrackets = new List<char>() { '(', '{', '[' };
+            List<char> closingBrackets = new List<char> { ')', '}', ']' };
+            Stack<char> stringBrackets = new Stack<char>();
+            foreach (var chr in chars)
+            {
+                // if opening bracket
+                if (openingBrackets.Contains(chr))
+                {
+                    // add in stringBrackets
+                    stringBrackets.Push(chr);
+
+                }
+                // if closing bracket
+                // if last item in stringBrackets is same pair opening
+                // then remove from stringBrackets
+                // invalid, hence set isValidString as false
+                else if (closingBrackets.Contains(chr))
+                {
+                    // Case 1: stringBrackets is empty
+                    if (stringBrackets.Count == 0)
+                    {
+                        isValidString = false;
+                        break;
+                    }
+
+                    // Case 2: stringBrackets have some values
+                    else
+                    {
+                        var difference = Math.Abs(chr - stringBrackets.Peek());
+                        if (difference < 3)
+                        {
+                            stringBrackets.Pop();
+                        }
+                        else
+                        {
+                            isValidString = false;
+                            break;
+                        }
+                    }
+                }
+
+
+
+            }
+
+            return isValidString && (stringBrackets.Count == 0);
+        }
+
+        public static bool IsValidStringWithBrackets_Optimised(string s)
+        {
+            // Get ready initial state (enforce element type)
+            var k = new Stack<char>();
+            // Evaluate each character for potential mismatch 
+            foreach (char c in s)
+            {
+                // Push closing round bracket onto the stack
+                if (c == '(') { k.Push(')'); continue; }
+                // Push closing curly bracket onto the stack
+                if (c == '{') { k.Push('}'); continue; }
+                // Push closing square bracket onto the stack
+                if (c == '[') { k.Push(']'); continue; }
+                // Look out for imbalanced strings or mismatches
+                if (k.Count == 0 || c != k.Pop()) return false;
+            }
+            // Empty stack means string is valid and invalid otherwise
+            return k.Count == 0;
         }
     }
 }

@@ -63,5 +63,21 @@ namespace NZWalks.Api.Test.Helper
                 Assert.Equal(nums[i], expectedArray[i]);
             }
         }
-     }
+
+
+        [Theory]
+        [InlineData("()", true)]
+        [InlineData("(}", false)]
+        [InlineData(")()", false)]
+        [InlineData("()[]{}", true)]
+
+        public void IsValidString_WithBrackers(String inputString, bool expected)
+        {
+            //Act
+            bool actualResult = Logics.IsValidStringWithBrackets(inputString);
+            //Assert
+            Assert.Equal(expected, actualResult);
+        }
+
+    }
 }
