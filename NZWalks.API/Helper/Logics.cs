@@ -172,9 +172,6 @@ namespace NZWalks.API.Helper
                         }
                     }
                 }
-
-
-
             }
 
             return isValidString && (stringBrackets.Count == 0);

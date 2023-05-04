@@ -60,7 +60,6 @@ namespace NZWalks.API.Repositories
             _dbContext.Walks.Remove(walkToDelete);
             await _dbContext.SaveChangesAsync();
             return walkToDelete;
-
         }
     }
 }
