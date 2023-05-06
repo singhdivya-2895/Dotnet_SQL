@@ -35,7 +35,7 @@ jobs:
         # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
         sonarOrganization: singhdivya-2895
         # Optional command arguments to dotnet build
-        dotnetBuildArguments: ./NZWalks.API
+        dotnetBuildArguments: .
         # Optional command arguments to dotnet test
         dotnetTestArguments: ./NZWalks.Api.Test/ --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
         # Optional extra command arguments the the SonarScanner 'begin' command
