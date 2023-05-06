@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NZWalks.Identity.Data;
+using NZWalks.Identity.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication();
+builder.Services.AddScoped<ITokenRepository,TokenRepository>();
 builder.Services.AddDbContext<NZWalksAuthDbContext>(
     options => options
          .UseSqlServer(builder.Configuration.GetConnectionString("IdentityServerConnectionString")));
