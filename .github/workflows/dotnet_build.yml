@@ -23,7 +23,7 @@ jobs:
         fetch-depth: 0
 
     - name: Build, Test and Sonar Analyse
-      uses: highbyte/sonarscan-dotnet@v2.1.3     
+      uses: highbyte/sonarscan-dotnet@v2.2.2     
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
