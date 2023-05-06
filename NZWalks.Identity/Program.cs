@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using NZWalks.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDataProtection();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication();
 builder.Services.AddDbContext<NZWalksAuthDbContext>(
     options => options
          .UseSqlServer(builder.Configuration.GetConnectionString("IdentityServerConnectionString")));
