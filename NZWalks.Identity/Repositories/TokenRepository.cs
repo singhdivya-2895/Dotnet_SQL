@@ -20,11 +20,12 @@ namespace NZWalks.Identity.Repositories
            //create claims
            var claims = new List<Claim>();
            claims.Add(new Claim(ClaimTypes.Email,user.Email));
-          
-           foreach (var role in roles)
-           {
+           claims.Add(new Claim("AajkaPlan", "Festival"));
+
+            foreach (var role in roles)
+            {
              claims.Add(new Claim(ClaimTypes.Role,role ));  
-           }
+            }
 
            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
