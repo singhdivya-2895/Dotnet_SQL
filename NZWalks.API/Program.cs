@@ -7,8 +7,18 @@ using NZWalks.API.Data;
 using Microsoft.OpenApi.Models;
 using NZWalks.API.Repositories;
 using System.Text;
+using Serilog;
+using NZWalks.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("Logs/NzWalks_Log.txt", rollingInterval:RollingInterval.Day)
+                .MinimumLevel.Information()
+                .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 // Add services to the container.
 
@@ -44,7 +54,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Program>());
+builder.Services.AddFluentValidation(options => options
+                    .RegisterValidatorsFromAssemblyContaining<Program>());
 
 builder.Services.AddDbContext<NZWalksDbContext>(
     options => options
@@ -74,6 +85,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 

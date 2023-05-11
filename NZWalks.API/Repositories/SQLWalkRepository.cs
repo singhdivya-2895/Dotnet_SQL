@@ -32,7 +32,6 @@ namespace NZWalks.API.Repositories
             //Filtering 
             if (string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
             {
-            
               if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
               {
                     walks = walks.Where(x => x.Name.Contains(filterQuery));  
