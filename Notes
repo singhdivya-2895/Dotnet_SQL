@@ -36,3 +36,4 @@ class Program {
 // 1. Multiple Catch blocks. Sequence of Catch blocks - From Specific Exception Type to System.Expection (General)
 // 2. Nesting - Parent - Child who handles. Global Exception.
 // 3. throw ex vs throw new Exception vs throw new Exception(Message, ex)
+// 4. throw vs throw ex: throw keeps the original stack trace, byt throw ex replaces the stack trace (and it will look like exception was thrown by the one doing throw ex)
