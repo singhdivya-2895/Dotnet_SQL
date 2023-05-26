@@ -4,6 +4,7 @@ using NZWalks.API.Mapper;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
+using System.Net;
 
 namespace NZWalks.API.Controllers
 {
@@ -18,14 +19,20 @@ namespace NZWalks.API.Controllers
         {
             _walkRepository = walkRepository;
         }
-
+        //GET:/api/walks?filterOn=Name&filterQuery=Track&sortBy=Nmae&isAscending=true&
+        //pageNumber=1&pageSize=10
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(string? filterOn,string? filterQuery,
+            string? sortBy,bool? isAscending,int pageNumber = 1,int pageSize = 1000)
         {
-            var walksDomainModel = await _walkRepository.GetAllAsync();
-
-            //map DomainModel to Dto
-            var result = MappingHelper.mapWalkDomainListintoWalkDtoList(walksDomainModel);
+            throw new Exception("This is a new Exception");
+            var walksDomainModel = await _walkRepository.GetAllAsync(filterOn, filterQuery, sortBy,
+                        isAscending ?? true, pageNumber, pageSize);
+         //map DomainModel to Dto
+         var result = MappingHelper.mapWalkDomainListintoWalkDtoList(walksDomainModel);
+            //create a new custom exception
+            
+            //return Problem("Something went wrong", null, (int)HttpStatusCode.InternalServerError);
             return Ok(result);
         }
 
@@ -90,7 +97,6 @@ namespace NZWalks.API.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
-
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var walkToDelete = await _walkRepository.DeleteAsync(id);

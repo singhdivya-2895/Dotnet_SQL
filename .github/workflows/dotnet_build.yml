@@ -1,0 +1,42 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "master", "feature/*" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  BRANCH_NAME: ${GITHUB_REF##*refs/heads/}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Build, Test and Sonar Analyse
+      uses: highbyte/sonarscan-dotnet@v2.2.2     
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        # The key of the SonarQube project
+        sonarProjectKey: dotnet_sql
+        # The name of the SonarQube project
+        sonarProjectName:  Dotnet SQL
+        # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
+        sonarOrganization: singhdivya-2895
+        # Optional command arguments to dotnet build
+        dotnetBuildArguments: .
+        # Optional command arguments to dotnet test
+        dotnetTestArguments: ./NZWalks.Api.Test/ --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        # Optional extra command arguments the the SonarScanner 'begin' command
+        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx" # -d:sonar.qualitygate.wait=true // Will add it later

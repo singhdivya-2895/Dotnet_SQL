@@ -1,0 +1,39 @@
+Try Catch Notes:
+
+
+Try Catch Excercise:
+
+using System;
+
+class Program {
+    static void Main(string[] args) {
+       ParentMethod();
+    }
+
+    static void ParentMethod() {
+		try{
+        Console.WriteLine("Inside ParentMethod");
+        ChildMethod();}
+		catch (Exception ex){
+			Console.WriteLine($"Exception caught in Parent: {ex}");
+		}
+    }
+
+    static void ChildMethod() {
+        Console.WriteLine("Inside ChildMethod");
+        try {
+            int a = 10;
+            int b = 0;
+            int c = a / b; // This will cause DivideByZeroException
+        }
+        catch (DivideByZeroException ex) {
+			            Console.WriteLine($"Exception caught in Child: {ex.Message}");
+            throw new Exception("Error in ChildMethod due to someone try to divide by zero", ex);
+        }
+    }
+}
+
+// 1. Multiple Catch blocks. Sequence of Catch blocks - From Specific Exception Type to System.Expection (General)
+// 2. Nesting - Parent - Child who handles. Global Exception.
+// 3. throw ex vs throw new Exception vs throw new Exception(Message, ex)
+// 4. throw vs throw ex: throw keeps the original stack trace, byt throw ex replaces the stack trace (and it will look like exception was thrown by the one doing throw ex)
